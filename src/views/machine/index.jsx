@@ -6,24 +6,18 @@ import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import Product from "./components/product";
+import ControlPanel from "./components/control-panel";
 import { useShop } from "../../store/ShopProvider";
-import './styles.css'
+import "./styles.css";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#1A2027",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
-const back = {  backgroundColor: "#1A2027",height:'80%',overflowY:'scroll'}
+const back = { backgroundColor: "#1A2027", height: "80%", overflowY: "scroll" };
 export default function BasicGrid() {
   const { state } = useShop();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
-        <Grid item xs={11} style={back} >
+        <Grid item xs={10} style={back}>
           <Grid
             container
             spacing={{ xs: 2, md: 2 }}
@@ -40,11 +34,11 @@ export default function BasicGrid() {
             )}
           </Grid>
         </Grid>
-        <Grid item xs={1} style={{backgroundColor: "#1A2027"}} >
-                <Item>hola</Item>
+        <Grid item xs={2} style={{ backgroundColor: "#1A2027" }}>
+          <ControlPanel />
         </Grid>
-        <Grid item xs={12}  className='cart'>
-        <Grid
+        <Grid item xs={12} className="cart">
+          <Grid
             container
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 12, sm: 12, md: 12 }}
@@ -59,7 +53,7 @@ export default function BasicGrid() {
               <CircularProgress />
             )}
           </Grid>
-    </Grid>
+        </Grid>
       </Grid>
     </Box>
   );

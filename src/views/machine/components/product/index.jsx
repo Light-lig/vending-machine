@@ -25,36 +25,41 @@ export default function MediaCard(props) {
   };
 
   return (
-    <Card sx={{ maxWidth: 300 }}    
-    >
+    <Card sx={{ maxWidth: 300 }}>
       <CardMedia
         component="img"
         height="200"
         image={props.product.thumbnail}
         alt={props.product.name}
       />
-      {
-          props.dispatched ? <></>:<CardContent>
+      {props.dispatched ? (
+        <></>
+      ) : (
+        <CardContent>
           <Typography gutterBottom variant="h6" component="div">
             {props.product.name}
           </Typography>
           <Typography variant="overline" display="block" gutterBottom>
             Preparation time: {getSeconds(props.product.preparation_time)} s
           </Typography>
-          {loading ? <CircularProgress /> : <></>}
+          <Typography variant="overline" display="block" gutterBottom>
+            Price: $ {props.product.price}
+          </Typography>
         </CardContent>
-      }
+      )}
       <CardActions>
         {props.dispatched ? (
           <Button
             size="small"
             onClick={() => dispatch({ type: "PULL_SHOP", item: props.product })}
           >
-            pull
+            Take
           </Button>
+        ) : loading ? (
+          <CircularProgress />
         ) : (
           <Button size="small" onClick={shop}>
-            Share
+            Buy
           </Button>
         )}
       </CardActions>
