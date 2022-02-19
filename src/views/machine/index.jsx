@@ -10,18 +10,20 @@ import ControlPanel from "./components/control-panel";
 import { useShop } from "../../store/ShopProvider";
 import "./styles.css";
 
-const back = { backgroundColor: "#1A2027", height: "80%", overflowY: "scroll" };
+const back = { height: 700, overflowY: "scroll" };
 export default function BasicGrid() {
   const { state } = useShop();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
-        <Grid item xs={10} style={back}>
+        <Grid container xs={10} style={back}  >
           <Grid
             container
             spacing={{ xs: 2, md: 2 }}
             columns={{ xs: 4, sm: 4, md: 12 }}
+           
+            p={4}
           >
             {state.data.length > 0 ? (
               state.data.map((item, index) => (
@@ -34,14 +36,17 @@ export default function BasicGrid() {
             )}
           </Grid>
         </Grid>
-        <Grid item xs={2} style={{ backgroundColor: "#1A2027" }}>
+        <Grid item xs={2}    p={4}>
           <ControlPanel />
         </Grid>
-        <Grid item xs={12} className="cart">
+        <Grid item xs={12} className="cart" p={4}>
           <Grid
             container
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 12, sm: 12, md: 12 }}
+            justifyContent="center"
+            direction="row"
+            alignItems="center"
           >
             {state.shop.length > 0 ? (
               state.shop.map((item, index) => (

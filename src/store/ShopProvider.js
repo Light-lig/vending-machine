@@ -7,7 +7,6 @@ var inicialState = {
   shop: [],
   money: 0.0,
   turned: 0.0,
-  total: 0.0,
 };
 function shopReducer(state, action) {
   switch (action.type) {
@@ -23,18 +22,22 @@ function shopReducer(state, action) {
       };
     case "UPDATE_SHOP":
       let shop = state.shop;
-      shop.push(action.item);
       let total = 0.0;
       let turned = 0.0;
-      shop.map((item) => {
-        total = total + item.price;
-      });
-      turned = state.money - total;
+      if (state.money >= action.item.price) {
+        shop.push(action.item);
+
+        shop.map((item) => {
+          total = total + item.price;
+        });
+        turned = state.money - total;
+      } else {
+        alert("Not enough cash, stranger!");
+      }
 
       return {
         ...state,
         shop: shop,
-        total: total,
         turned: turned,
         money: turned,
       };

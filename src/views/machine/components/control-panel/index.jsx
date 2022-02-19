@@ -12,6 +12,7 @@ export default function BasicCard() {
   const [value, setValue] = useState(0);
 
   const handleChange = (e) => {
+    if(e.target.value !== "")
     setValue(parseFloat(e.target.value));
   };
 
@@ -34,6 +35,10 @@ export default function BasicCard() {
         </Typography>
         <TextField
           inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+          InputLabelProps={{
+            shrink: true,
+          }}          type="number"
+
           value={value}
           onChange={handleChange}
           onBlur={updateMoney}
