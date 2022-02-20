@@ -39,12 +39,13 @@ export default function BasicGrid() {
         <Grid item xs={2}    p={4}>
           <ControlPanel />
         </Grid>
-        <Grid item xs={12} className="cart" p={4}>
+        <Grid item xs={12} className="cart" p={4} spacing={2}>
           <Grid
             container
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 12, sm: 12, md: 12 }}
             justifyContent="center"
+            style={{height:'100%'}}
             direction="row"
             alignItems="center"
           >

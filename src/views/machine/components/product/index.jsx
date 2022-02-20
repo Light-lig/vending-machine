@@ -9,18 +9,19 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import { useShop } from "../../../../store/ShopProvider";
 export default function MediaCard(props) {
-  const { state, dispatch } = useShop();
+  const {  dispatch, dispatchMoney, money } = useShop();
   const [loading, setLoading] = useState(false);
 
   const shop = () => {
-    if (state.money >= props.product.price) {
-
+    if (money.cash >= props.product.price) {
       setLoading(true);
+      dispatchMoney({type:'UPDATE_MONEY',item:parseFloat(money.cash - props.product.price)})
 
       setTimeout(() => {
-        dispatch({ type: "UPDATE_SHOP", item: props.product });
+        dispatch({ type: "UPDATE_SHOP", item: {product:props.product, money : money.cash }});
         setLoading(false);
       }, props.product.preparation_time * 100);
+
     }else{
       alert("Not enough cash, stranger!");
 

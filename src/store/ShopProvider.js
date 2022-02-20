@@ -5,16 +5,24 @@ const ShopContext = React.createContext(null);
 var inicialState = {
   data: [],
   shop: [],
-  money: 0.0,
   turned: 0.0,
+  cash: 0,
 };
-function shopReducer(state, action) {
+var initialMoney = {
+  cash: 0,
+};
+function moneyReducer(state, action) {
   switch (action.type) {
     case "UPDATE_MONEY":
       return {
-        ...state,
-        money: action.item,
+        cash: action.item,
       };
+    default:
+      return state;
+  }
+}
+function shopReducer(state, action) {
+  switch (action.type) {
     case "FILL_MACHINE":
       return {
         ...state,
@@ -24,22 +32,20 @@ function shopReducer(state, action) {
       let shop = state.shop;
       let total = 0.0;
       let turned = 0.0;
-      if (state.money >= action.item.price) {
-        shop.push(action.item);
+      shop.push(action.item.product);
 
-        shop.map((item) => {
-          total = total + item.price;
-        });
-        turned = state.money - total;
-      } else {
-        alert("Not enough cash, stranger!");
+      shop.map((item) => {
+        total = total + item.price;
+      });
+      turned = action.item.money - total;
+      if (turned < 0) {
+        turned = 0.0;
       }
 
       return {
         ...state,
         shop: shop,
         turned: turned,
-        money: turned,
       };
     case "PULL_SHOP":
       let shopPull = state.shop.filter((item) => item.id !== action.item.id);
@@ -52,6 +58,7 @@ function shopReducer(state, action) {
 
 function ShopProvider({ children }) {
   const [state, dispatch] = React.useReducer(shopReducer, inicialState);
+  const [money, dispatchMoney] = React.useReducer(moneyReducer, initialMoney);
 
   useEffect(() => {
     axios
@@ -69,7 +76,7 @@ function ShopProvider({ children }) {
       });
   }, []);
 
-  const value = { state, dispatch };
+  const value = { state, dispatch, money, dispatchMoney };
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 }
 function randomIntFromInterval(min, max) {

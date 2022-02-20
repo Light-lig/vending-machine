@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { useShop } from "../../../../store/ShopProvider";
 
 export default function BasicCard() {
-  const { state, dispatch } = useShop();
+  const { money, dispatchMoney, state } = useShop();
   const [value, setValue] = useState(0);
 
   const handleChange = (e) => {
@@ -17,7 +17,7 @@ export default function BasicCard() {
   };
 
   const updateMoney = () => {
-    dispatch({ type: "UPDATE_MONEY", item: parseFloat(state.money + value) });
+    dispatchMoney({ type: "UPDATE_MONEY", item: parseFloat(money.cash + value) });
     setValue(0.0);
   };
 
@@ -28,7 +28,7 @@ export default function BasicCard() {
           Amount
         </Typography>
         <Typography variant="h5" component="div">
-          {state.money}
+          {money.cash}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           adjective
