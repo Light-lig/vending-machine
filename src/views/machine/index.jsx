@@ -1,18 +1,19 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import CircularProgress from "@mui/material/CircularProgress";
+import Alert  from "@mui/material/Alert";
 
 import Product from "./components/product";
 import ControlPanel from "./components/control-panel";
 import Header from "./components/header";
 import { useShop } from "../../store/ShopProvider";
+import Loaders from "./components/Skeletons";
 import "./styles.css";
 
 const back = { height: 700, overflowY: "scroll" };
 export default function BasicGrid() {
   const { state } = useShop();
-  const {products} = state;
+  const { products } = state;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -34,7 +35,7 @@ export default function BasicGrid() {
                 </Grid>
               ))
             ) : (
-              <CircularProgress />
+              <Loaders />
             )}
           </Grid>
         </Grid>
@@ -58,7 +59,8 @@ export default function BasicGrid() {
                 </Grid>
               ))
             ) : (
-              <h2>empty</h2>
+              <Alert severity="info">Empty!</Alert>
+
             )}
           </Grid>
         </Grid>
