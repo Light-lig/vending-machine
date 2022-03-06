@@ -2,6 +2,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Alert  from "@mui/material/Alert";
+import Drawer  from "@mui/material/Drawer";
+import Stack  from "@mui/material/Stack";
 
 import Product from "./components/product";
 import ControlPanel from "./components/control-panel";
@@ -10,27 +12,35 @@ import { useShop } from "../../store/ShopProvider";
 import Loaders from "./components/Skeletons";
 import "./styles.css";
 
-const back = { height: 700, overflowY: "scroll" };
+const backGroundStyle = { height: 800, overflowY: "scroll" };
 export default function BasicGrid() {
-  const { state } = useShop();
-  const { products } = state;
 
+  const { state, dispatch } = useShop();
+  const { products, openCart } = state;
+
+  const closeCart = () =>{
+    dispatch({
+      type:"OPEN_CART",
+      item:false
+    })
+  }
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid item xs={12}>
-        <Header />
-      </Grid>
+    <Stack spacing={2}>
+              <Header />
+
+    <Box sx={{ flexGrow: 1 }} >
+      
       <Grid container spacing={2}>
-        <Grid container xs={10} style={back}>
+        <Grid container xs={10} style={backGroundStyle}>
           <Grid
             container
             spacing={{ xs: 2, md: 2 }}
-            columns={{ xs: 3, sm: 3, md: 12 }}
+            columns={{ xs: 12, sm: 12, md: 12 }}
             p={4}
           >
             {products.length > 0 ? (
               products.map((item, index) => (
-                <Grid item xs={3} sm={3} md={4} key={index}>
+                <Grid item xs={3} sm={12} md={3} key={index}>
                   <Product product={item} dispatched={false} />
                 </Grid>
               ))
@@ -42,7 +52,12 @@ export default function BasicGrid() {
         <Grid item xs={2} p={4}>
           <ControlPanel />
         </Grid>
-        <Grid item xs={12} className="cart" p={4} spacing={2}>
+        <Drawer
+            anchor="bottom"
+            open={openCart}
+            onClose={closeCart}
+          >
+              <Grid item xs={12} className="cart" p={4} spacing={2}>
           <Grid
             container
             spacing={{ xs: 2, md: 3 }}
@@ -64,7 +79,10 @@ export default function BasicGrid() {
             )}
           </Grid>
         </Grid>
+          </Drawer>
+     
       </Grid>
     </Box>
+    </Stack>
   );
 }

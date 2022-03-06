@@ -1,0 +1,10 @@
+.count{
+        position: absolute;
+        width: 14px;
+        height: 12px;
+        border-radius: 5px;
+        background-color: tomato;
+        font-size: 10px;
+        top: 8px;
+        right: 5px;
+    }

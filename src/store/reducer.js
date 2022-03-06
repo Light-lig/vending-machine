@@ -1,6 +1,11 @@
 
 export function shopReducer(state, action) {
     switch (action.type) {
+      case "OPEN_CART":
+        return{
+          ...state,
+          openCart:action.item
+        }
       case "UPDATE_MONEY":
         return {
           ...state,

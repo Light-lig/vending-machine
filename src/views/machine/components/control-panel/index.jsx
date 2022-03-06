@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+
 
 import { useShop } from "../../../../store/ShopProvider";
 
@@ -30,6 +31,8 @@ export default function BasicCard() {
   return (
     <Card>
       <CardContent>
+      <Stack spacing={1}>
+
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           Amount
         </Typography>
@@ -49,8 +52,9 @@ export default function BasicCard() {
         <Button variant="contained" onClick={updateMoney}>
           Add money
         </Button>
+        </Stack>
       </CardContent>
-      <CardActions></CardActions>
+  
     </Card>
   );
 }

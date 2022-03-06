@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -6,21 +6,28 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
-import Snackbar from '@mui/material/Snackbar';
-import Alert  from "@mui/material/Alert";
-import merchant from './stranger.png';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import merchant from "./stranger.png";
 import { useShop } from "../../../../store/ShopProvider";
-import './styles.css'
+import "./styles.css";
+
 export default function MediaCard(props) {
 
   const { dispatch, state } = useShop();
   const { cash } = state;
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [image, setImage] = useState("");
+  const [merchangerQuotes,setQuotes] = useState("Not enough cash, stranger!")
+  const [alertTypes, setTypes] = useState("info")
+  useEffect(() => {
+    setImage(props.product.thumbnail);
+  }, []);
 
   const shop = () => {
     if (cash < props.product.price) {
-      setOpen(true)
+      setOpen(true);
       return;
     }
     setLoading(true);
@@ -34,15 +41,18 @@ export default function MediaCard(props) {
         type: "UPDATE_SHOP",
         item: props.product,
       });
+      setQuotes("Heh heh heh... Thank you!, your order is ready.")
+      setTypes("success");
+      setOpen(true)
       setLoading(false);
     }, props.product.preparation_time * 1000);
   };
 
   const handleClose = (event, reason) => {
+    
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
@@ -82,14 +92,22 @@ export default function MediaCard(props) {
       <CardMedia
         component="img"
         sx={{ width: 151 }}
+        onError={() =>
+          setImage("https://portal.cmaa.org/eWeb/images/DEMO1/notavailable.jpg")
+        }
         style={{ height: 190, width: 150 }}
-        image={props.product.thumbnail}
+        image={image}
         alt={props.product.name}
       />
-      <Snackbar open={open} onClose={handleClose} autoHideDuration={6000} anchorOrigin={{vertical:'top',horizontal:'center'}}>
-        <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
-        Not enough cash, stranger!         <img alt="merchant" src={merchant} className="merchant" />
-
+      <Snackbar
+        open={open}
+        onClose={handleClose}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity={alertTypes} sx={{ width: "100%" }}>
+          {merchangerQuotes}
+          <img alt="merchant" src={merchant} className="merchant" />
         </Alert>
       </Snackbar>
     </Card>
