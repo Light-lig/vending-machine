@@ -4,21 +4,27 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
 import { useShop } from "../../../../store/ShopProvider";
 
 export default function BasicCard() {
-  const { money, dispatchMoney, state } = useShop();
+  const { state, dispatch } = useShop();
+  const { cash } = state;
   const [value, setValue] = useState(0);
 
   const handleChange = (e) => {
-    if(e.target.value !== "")
     setValue(parseFloat(e.target.value));
   };
 
   const updateMoney = () => {
-    dispatchMoney({ type: "UPDATE_MONEY", item: parseFloat(money.cash + value) });
-    setValue(0.0);
+    if (value !== "") {
+      dispatch({
+        type: "UPDATE_MONEY",
+        item: parseFloat(cash + value),
+      });
+      setValue(0.0);
+    }
   };
 
   return (
@@ -28,27 +34,23 @@ export default function BasicCard() {
           Amount
         </Typography>
         <Typography variant="h5" component="div">
-          {money.cash}
+          ${cash}
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
+
         <TextField
           inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
           InputLabelProps={{
             shrink: true,
-          }}          type="number"
-
+          }}
+          type="number"
           value={value}
           onChange={handleChange}
-          onBlur={updateMoney}
         />
+        <Button variant="contained" onClick={updateMoney}>
+          Add money
+        </Button>
       </CardContent>
-      <CardActions>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Turned: {state.turned}
-        </Typography>
-      </CardActions>
+      <CardActions></CardActions>
     </Card>
   );
 }
