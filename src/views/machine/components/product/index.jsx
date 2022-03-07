@@ -44,7 +44,7 @@ export default function MediaCard(props) {
       setTypes("success");
       setOpen(true)
       setLoading(false);
-    }, props.product.preparation_time * 100);
+    }, props.product.preparation_time * 1000);
   };
 
   const handleClose = (event, reason) => {
