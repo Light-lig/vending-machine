@@ -1,7 +1,9 @@
 import * as React from "react";
 import Skeleton from "@mui/material/Skeleton";
 import Grid from "@mui/material/Grid";
+
 export default function SkeletonColor() {
+
   const skeletons = [1, 2, 3, 4, 5, 6, 3, 3, 3];
 
   return skeletons.map((i) => (

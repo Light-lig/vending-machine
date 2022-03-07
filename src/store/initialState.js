@@ -1,6 +1,6 @@
-export const inicialState =  {
-    products: [],
-    shop: [],
-    cash: 0,
-    openCart:false
-  };
+export const inicialState = {
+  products: [],
+  shop: [],
+  cash: 0,
+  openCart: false,
+};

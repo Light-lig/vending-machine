@@ -10,8 +10,8 @@ function ShopProvider({ children }) {
 
   const [state, dispatch] = React.useReducer(shopReducer, inicialState);
 
-  useEffect(() => {
-    axios
+  async function fetchData() {
+    await axios
       .get("https://vending-machine-test.vercel.app/api/products")
       .then((response) => {
         response.data.data = response.data.data.map((item) => {
@@ -24,11 +24,16 @@ function ShopProvider({ children }) {
         console.log(err);
         alert("An error occurred while querying the data.");
       });
+  }
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const value = { state, dispatch };
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 }
+
 function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }

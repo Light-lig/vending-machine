@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+
 import merchant from "./stranger.png";
 import { useShop } from "../../../../store/ShopProvider";
 import "./styles.css";
@@ -18,15 +19,13 @@ export default function MediaCard(props) {
   const { cash } = state;
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [image, setImage] = useState("");
-  const [merchangerQuotes,setQuotes] = useState("Not enough cash, stranger!")
+  const [merchanderQuotes,setQuotes] = useState("Not enough cash, stranger!")
   const [alertTypes, setTypes] = useState("info")
-  useEffect(() => {
-    setImage(props.product.thumbnail);
-  }, []);
 
   const shop = () => {
     if (cash < props.product.price) {
+      setQuotes("Not enough cash, stranger!")
+      setTypes("info");
       setOpen(true);
       return;
     }
@@ -45,7 +44,7 @@ export default function MediaCard(props) {
       setTypes("success");
       setOpen(true)
       setLoading(false);
-    }, props.product.preparation_time * 1000);
+    }, props.product.preparation_time * 100);
   };
 
   const handleClose = (event, reason) => {
@@ -60,7 +59,7 @@ export default function MediaCard(props) {
     <Card sx={{ display: "flex" }}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
-          <Typography component="div" variant="h5">
+          <Typography component="div" variant="h6">
             {props.product.name}
           </Typography>
           <Typography
@@ -90,13 +89,9 @@ export default function MediaCard(props) {
         </Box>
       </Box>
       <CardMedia
-        component="img"
-        sx={{ width: 151 }}
-        onError={() =>
-          setImage("https://portal.cmaa.org/eWeb/images/DEMO1/notavailable.jpg")
-        }
-        style={{ height: 190, width: 150 }}
-        image={image}
+        component="img"     
+        style={{ height: 190, width: '50%'}}
+        image={props.product.thumbnail}
         alt={props.product.name}
       />
       <Snackbar
@@ -106,7 +101,7 @@ export default function MediaCard(props) {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity={alertTypes} sx={{ width: "100%" }}>
-          {merchangerQuotes}
+          {merchanderQuotes}
           <img alt="merchant" src={merchant} className="merchant" />
         </Alert>
       </Snackbar>
